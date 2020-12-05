@@ -5,11 +5,14 @@ import pytest
 from api.reqres_api_client import ReqResApiClient
 
 
+@pytest.mark.regression
+@pytest.mark.smoke
 def test_reqres_returns_users_list():
     users_list = ReqResApiClient.list_users()
     assert users_list['per_page'] == len(users_list['data'])
 
 
+@pytest.mark.regression
 def test_reqres_can_create_user():
     user_details = {
         'name': 'morpheus',
@@ -20,6 +23,8 @@ def test_reqres_can_create_user():
             user.get('id') is not None)
 
 
+@pytest.mark.regression
+@pytest.mark.smoke
 def test_reqres_can_register():
     user_credentials = {
         'email': 'eve.holt@reqres.in',
@@ -29,6 +34,7 @@ def test_reqres_can_register():
     assert registration_info == {'id': 4, 'token': 'QpwL5tke4Pnpja7X4'}
 
 
+@pytest.mark.regression
 def test_reqres_fails_on_register():
     user_credentials = {
         'password': 'pistol'
@@ -43,6 +49,8 @@ def test_reqres_fails_on_register():
         ReqResApiClient.register(user_credentials)
 
 
+@pytest.mark.regression
+@pytest.mark.smoke
 def test_reqres_can_login():
     user_credentials = {
         'email': 'eve.holt@reqres.in',
@@ -52,6 +60,7 @@ def test_reqres_can_login():
     assert login_info == {'token': 'QpwL5tke4Pnpja7X4'}
 
 
+@pytest.mark.regression
 def test_reqres_fails_on_login():
     user_credentials = {
         'email': 'eve.holt@reqres.in',
@@ -66,6 +75,7 @@ def test_reqres_fails_on_login():
         ReqResApiClient.login(user_credentials)
 
 
+@pytest.mark.regression
 def test_reqres_returns_list_of_unknown():
     list_of_unknown = ReqResApiClient.list_unknown()
     assert list_of_unknown['total_pages'] >= list_of_unknown['page']
